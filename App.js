@@ -1,11 +1,13 @@
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {Tabs} from './src/components/navigation/Tabs';
 
 const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text>It works! FINAAALLLLY</Text>
-    </View>
+    <NavigationContainer styles={styles.sectionContainer}>
+      <Tabs />
+    </NavigationContainer>
   );
 };
 
