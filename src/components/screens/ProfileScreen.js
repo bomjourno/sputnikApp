@@ -7,8 +7,12 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ProfileScreen = () => {
+  // const dispatch = useDispatch();
+  const user = useSelector(state => state.user.user);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -33,12 +37,12 @@ const ProfileScreen = () => {
         <Image
           style={styles.user_avatar}
           resizeMode="contain"
-          source={require('../../images/profile/avatar.png')}
+          source={{ uri: user.avatar_url }}
         />
         <Text style={styles.user_name} ellipsizeMode="tail" numberOfLines={1}>
-          Name
+          {user.login}
         </Text>
-        <Text style={styles.user_id}>123124</Text>
+        <Text style={styles.user_id}>{user.id}</Text>
       </View>
       <View style={styles.buttons}>
         <TouchableOpacity style={styles.button}>

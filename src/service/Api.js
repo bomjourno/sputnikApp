@@ -3,21 +3,23 @@ import axios from 'axios';
 class Api {
   constructor(props) {
     this.baseUrl = props.baseUrl;
+    // this.findUserUrl = props.findUserUrl;
   }
 
-  getFollowers() {
-    return axios.get(`${this.baseUrl}/followers`);
+  getFollowers(user) {
+    return axios.get(`${this.baseUrl}/${user}/followers`);
   }
 
-  getUserData() {
-    return axios.get(`${this.baseUrl}`);
+  getUserData(user) {
+    return axios.get(`${this.baseUrl}/${user}`);
   }
 
-  getRepos() {
-    return axios.get(`${this.baseUrl}/repos`);
+  getRepos(user) {
+    return axios.get(`${this.baseUrl}/${user}/repos`);
   }
 }
 
 export const api = new Api({
-  baseUrl: 'https://api.github.com/users/sGantMan',
+  // baseUrl: 'https://api.github.com/users/GantMan',
+  baseUrl: 'https://api.github.com/users',
 });

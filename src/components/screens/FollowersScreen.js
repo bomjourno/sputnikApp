@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Text,
   View,
@@ -6,23 +6,13 @@ import {
   TextInput,
   Image,
   ScrollView,
-  Button,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFollowers } from '../redux/actions';
 import Follower from './Follower';
 
-// const followers = [
-//   {
-//     id: 1,
-//     name: 'Arnold',
-//     num: 1242141525,
-//   },
-// ];
-
 const FollowersScreen = () => {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.loading);
   const followers = useSelector(state => state.followers.fetchedFollowers);
 
   useEffect(() => {

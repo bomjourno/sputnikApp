@@ -15,18 +15,19 @@ import { fetchFollowers, fetchRepos } from '../redux/actions';
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user.user);
   const followers = useSelector(state => state.followers.fetchedFollowers);
   const repos = useSelector(state => state.repos.repos);
 
   useEffect(() => {
-    dispatch(fetchFollowers());
-    dispatch(fetchRepos());
+    dispatch(fetchFollowers(user.login));
+    dispatch(fetchRepos(user.login));
   }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.header_text}>Crictian</Text>
+        <Text style={styles.header_text}>{user.login}</Text>
         <TouchableOpacity style={styles.header_button}>
           <LinearGradient
             start={{ x: 1, y: 0 }}
@@ -84,43 +85,49 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.items_headerLink}>View all</Text>
         </View>
         <ScrollView style={styles.items_list_repos} horizontal>
-          {repos.map(repo => (
-            <View key={repo.id} style={styles.item_repos}>
-              <View style={styles.item_column}>
-                <Image
-                  resizeMode="contain"
-                  style={styles.item_image_repos}
-                  source={{ uri: repo.owner.avatar_url }}
-                />
-                <Text
-                  ellipsizeMode="tail"
-                  numberOfLines={1}
-                  style={styles.item_name_repos}
-                >
-                  {repo.name}
-                </Text>
-                <Text style={styles.item_num}>{repo.id}</Text>
-              </View>
-              <View style={styles.item_column}>
-                <View style={styles.item_column_stark}>
-                  <ImageBackground
-                    style={styles.item_column_image}
-                    source={require('../../images/repos/star.png')}
+          {repos ? (
+            <Text style={styles.item_norepos}>There are no repositories</Text>
+          ) : (
+            repos.map(repo => (
+              <View key={repo.id} style={styles.item_repos}>
+                <View style={styles.item_column}>
+                  <Image
+                    resizeMode="contain"
+                    style={styles.item_image_repos}
+                    source={{ uri: repo.owner.avatar_url }}
                   />
-                  <Text style={styles.item_column_text}>
-                    {repo.stargazers_count}
+                  <Text
+                    ellipsizeMode="tail"
+                    numberOfLines={1}
+                    style={styles.item_name_repos}
+                  >
+                    {repo.name}
                   </Text>
+                  <Text style={styles.item_num}>{repo.id}</Text>
                 </View>
-                <View style={styles.item_column_fork}>
-                  <ImageBackground
-                    style={styles.item_column_image_fork}
-                    source={require('../../images/repos/fork.png')}
-                  />
-                  <Text style={styles.item_column_text_fork}>{repo.forks}</Text>
+                <View style={styles.item_column}>
+                  <View style={styles.item_column_stark}>
+                    <ImageBackground
+                      style={styles.item_column_image}
+                      source={require('../../images/repos/star.png')}
+                    />
+                    <Text style={styles.item_column_text}>
+                      {repo.stargazers_count}
+                    </Text>
+                  </View>
+                  <View style={styles.item_column_fork}>
+                    <ImageBackground
+                      style={styles.item_column_image_fork}
+                      source={require('../../images/repos/fork.png')}
+                    />
+                    <Text style={styles.item_column_text_fork}>
+                      {repo.forks}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          ))}
+            ))
+          )}
         </ScrollView>
       </View>
     </View>
@@ -283,7 +290,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginRight: 24,
   },
+  item_norepos: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 17,
+    lineHeight: 26,
+    color: '#2B2B2B',
+  },
   item_name: {
+    maxWidth: 100,
     marginTop: 6,
     fontFamily: 'Poppins-Medium',
     fontSize: 17,

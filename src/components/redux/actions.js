@@ -7,6 +7,20 @@ import {
   FETCH_REPOS,
 } from './types';
 
+export function fetchUser(user) {
+  return async dispatch => {
+    dispatch({ type: ON_REQUEST });
+    const response = await api.getUserData(user);
+    console.log(response);
+    if (response.request.status === 200) {
+      const json = await response.data;
+      dispatch({ type: FETCH_USER, payload: json });
+      return;
+    }
+    dispatch({ type: ON_ERROR, payload: response.error });
+  };
+}
+
 export function fetchFollowers() {
   return async dispatch => {
     dispatch({ type: ON_REQUEST });
@@ -24,23 +38,9 @@ export function fetchRepos() {
   return async dispatch => {
     dispatch({ type: ON_REQUEST });
     const response = await api.getRepos();
-    console.log(response);
     if (response.request.status === 200) {
       const json = await response.data;
       dispatch({ type: FETCH_REPOS, payload: json });
-      return;
-    }
-    dispatch({ type: ON_ERROR, payload: response.error });
-  };
-}
-
-export function fetchProfile() {
-  return async dispatch => {
-    dispatch({ type: ON_REQUEST });
-    const response = api.getUserData();
-    if (response) {
-      const json = await response.json();
-      dispatch({ type: FETCH_USER, payload: json });
       return;
     }
     dispatch({ type: ON_ERROR, payload: response.error });
