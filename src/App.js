@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import { Tabs } from './components/navigation/Tabs';
 import { Onboarding } from './components/onboarding/Onboarding';
 import { rootReducer } from './components/redux/rootReducer';
+import SignIn from './components/screens/SignIn';
 
 const Stack = createNativeStackNavigator();
 const store = createStore(
@@ -28,6 +29,11 @@ const App = () => {
             options={{ headerShown: false }}
             component={Onboarding}
             name="Onboarding"
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            component={SignIn}
+            name="SignIn"
           />
           <Stack.Screen
             options={{ headerShown: false }}

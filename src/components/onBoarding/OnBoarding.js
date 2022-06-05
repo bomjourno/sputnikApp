@@ -27,8 +27,7 @@ export const Onboarding = ({ navigation }) => {
     if (currentIndex < slides.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
-      navigation.navigate('Tabs');
-      console.log('Last Item');
+      navigation.navigate('SignIn');
     }
   };
 

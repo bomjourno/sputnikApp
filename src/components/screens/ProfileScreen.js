@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Image,
   ImageBackground,
-  Button,
   TouchableOpacity,
 } from 'react-native';
 
@@ -175,7 +174,6 @@ const styles = StyleSheet.create({
     color: '#2b2b2b',
   },
   button_image: {
-    // flex: 1,
     width: 20,
     height: 20,
     marginLeft: 30,
