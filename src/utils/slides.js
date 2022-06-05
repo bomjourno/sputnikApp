@@ -1,7 +1,7 @@
 export default [
   {
     id: 1,
-    title: `Фонд поддержки стартапов 'Спутник'`,
+    title: `Фонд поддержки стартапов «Спутник»`,
     image: require('../images/onboarding/1.png'),
   },
   {

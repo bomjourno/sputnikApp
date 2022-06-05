@@ -1,38 +1,30 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Animated,
-  useWindowDimensions,
-} from 'react-native';
+import { useEffect } from 'react';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 
-export default Paginator = ({ data, scrollX }) => {
-  const { width } = useWindowDimensions();
-
+export default Paginator = ({ data, currentPage }) => {
   return (
-    <View style={{ flexDirection: 'row', height: 64 }}>
+    <View style={{ flexDirection: 'row' }}>
       {data.map((data, i) => {
-        const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
-
-        const opacity = scrollX.interpolate({
-          inputRange,
-          outputRange: [0.3, 1, 0.3],
-          extrapolate: 'clamp',
-        });
-
         return (
           <Animated.View
             style={[
               styles.dot,
               {
                 width: 30,
-                opacity,
+                backgroundColor: currentPage == i ? '#fff' : '#404040',
               },
             ]}
             key={i.toString()}
           >
-            <Text style={styles.num}>{data.id}</Text>
+            <Text
+              style={[
+                styles.num,
+                { color: currentPage == i ? '#404040' : '#fff' },
+              ]}
+            >
+              {data.id}
+            </Text>
           </Animated.View>
         );
       })}
@@ -44,7 +36,6 @@ const styles = StyleSheet.create({
   dot: {
     height: 30,
     borderRadius: 25,
-    backgroundColor: '#404040',
     marginHorizontal: 10,
   },
   num: {
@@ -54,6 +45,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     fontSize: 13,
     lineHeight: 20,
-    color: '#fff',
   },
 });

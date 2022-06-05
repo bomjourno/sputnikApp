@@ -1,18 +1,36 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View, FlatList, Animated } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Animated,
+  TouchableOpacity,
+} from 'react-native';
 import slides from '../../utils/slides';
 import { OnboardingItem } from './OnboardingItem';
 import Logo from '../../images/onboarding/logo.svg';
 import Paginator from './Paginator';
+import LinearGradient from 'react-native-linear-gradient';
 
-export const Onboarding = () => {
+export const Onboarding = ({ navigation }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = useRef(null);
+  const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+
   const viewableItemsChanged = useRef(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
-  const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+
+  const scrollTo = () => {
+    if (currentIndex < slides.length - 1) {
+      slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
+    } else {
+      navigation.navigate('Tabs');
+      console.log('Last Item');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -37,7 +55,17 @@ export const Onboarding = () => {
           ref={slidesRef}
         />
       </View>
-      <Paginator data={slides} scrollX={scrollX} />
+      <Paginator currentPage={currentIndex} data={slides} />
+      <TouchableOpacity onPress={scrollTo} style={styles.button}>
+        <LinearGradient
+          start={{ x: 1, y: 0 }}
+          end={{ x: 0, y: 0 }}
+          colors={['#fe904b', '#fb724c']}
+          style={styles.button_gradient}
+        >
+          <Text style={styles.button_text}>Next</Text>
+        </LinearGradient>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -52,5 +80,23 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     left: 40,
     top: 40,
+  },
+  button: {
+    marginTop: 22,
+    marginBottom: 54,
+    color: '#fff',
+  },
+  button_gradient: {
+    paddingTop: 16,
+    paddingLeft: 146,
+    paddingRight: 146,
+    paddingBottom: 16,
+    borderRadius: 10,
+  },
+  button_text: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: 17,
+    lineHeight: 26,
+    color: '#fcfcfc',
   },
 });
