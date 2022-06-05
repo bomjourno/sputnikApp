@@ -11,14 +11,16 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { underline } from 'jest-matcher-utils/node_modules/chalk';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFollowers } from '../redux/actions';
+import { fetchFollowers, fetchRepos } from '../redux/actions';
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const followers = useSelector(state => state.followers.fetchedFollowers);
+  const repos = useSelector(state => state.repos.repos);
 
   useEffect(() => {
     dispatch(fetchFollowers());
+    dispatch(fetchRepos());
   }, []);
 
   return (
@@ -63,7 +65,13 @@ const HomeScreen = ({ navigation }) => {
                 style={styles.item_image}
                 source={{ uri: follower.avatar_url }}
               />
-              <Text style={styles.item_name}>{follower.login}</Text>
+              <Text
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={styles.item_name}
+              >
+                {follower.login}
+              </Text>
               <Text style={styles.item_num}>{follower.id}</Text>
             </View>
           ))}
@@ -76,60 +84,43 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.items_headerLink}>View all</Text>
         </View>
         <ScrollView style={styles.items_list_repos} horizontal>
-          <View style={styles.item_repos}>
-            <View style={styles.item_column}>
-              <Image
-                resizeMode="contain"
-                style={styles.item_image_repos}
-                source={require('../../images/followers/js.png')}
-              />
-              <Text style={styles.item_name_repos}>5thGalaxy</Text>
-              <Text style={styles.item_num}>470754826</Text>
-            </View>
-            <View style={styles.item_column}>
-              <View style={styles.item_column_stark}>
-                <ImageBackground
-                  style={styles.item_column_image}
-                  source={require('../../images/repos/star.png')}
+          {repos.map(repo => (
+            <View key={repo.id} style={styles.item_repos}>
+              <View style={styles.item_column}>
+                <Image
+                  resizeMode="contain"
+                  style={styles.item_image_repos}
+                  source={{ uri: repo.owner.avatar_url }}
                 />
-                <Text style={styles.item_column_text}>24</Text>
+                <Text
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={styles.item_name_repos}
+                >
+                  {repo.name}
+                </Text>
+                <Text style={styles.item_num}>{repo.id}</Text>
               </View>
-              <View style={styles.item_column_fork}>
-                <ImageBackground
-                  style={styles.item_column_image_fork}
-                  source={require('../../images/repos/fork.png')}
-                />
-                <Text style={styles.item_column_text_fork}>10</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.item_repos}>
-            <View style={styles.item_column}>
-              <Image
-                resizeMode="contain"
-                style={styles.item_image_repos}
-                source={require('../../images/followers/js.png')}
-              />
-              <Text style={styles.item_name_repos}>5thGalaxy</Text>
-              <Text style={styles.item_num}>470754826</Text>
-            </View>
-            <View style={styles.item_column}>
-              <View style={styles.item_column_stark}>
-                <ImageBackground
-                  style={styles.item_column_image}
-                  source={require('../../images/repos/star.png')}
-                />
-                <Text style={styles.item_column_text}>24</Text>
-              </View>
-              <View style={styles.item_column_fork}>
-                <ImageBackground
-                  style={styles.item_column_image_fork}
-                  source={require('../../images/repos/fork.png')}
-                />
-                <Text style={styles.item_column_text_fork}>10</Text>
+              <View style={styles.item_column}>
+                <View style={styles.item_column_stark}>
+                  <ImageBackground
+                    style={styles.item_column_image}
+                    source={require('../../images/repos/star.png')}
+                  />
+                  <Text style={styles.item_column_text}>
+                    {repo.stargazers_count}
+                  </Text>
+                </View>
+                <View style={styles.item_column_fork}>
+                  <ImageBackground
+                    style={styles.item_column_image_fork}
+                    source={require('../../images/repos/fork.png')}
+                  />
+                  <Text style={styles.item_column_text_fork}>{repo.forks}</Text>
+                </View>
               </View>
             </View>
-          </View>
+          ))}
         </ScrollView>
       </View>
     </View>
@@ -307,6 +298,7 @@ const styles = StyleSheet.create({
   },
   item_name_repos: {
     marginTop: 20,
+    maxWidth: 100,
     fontFamily: 'Poppins-Medium',
     fontSize: 17,
     lineHeight: 26,
@@ -315,6 +307,6 @@ const styles = StyleSheet.create({
   item_image_repos: {
     width: 100,
     height: 100,
-    // borderRadius: 5,
+    borderRadius: 5,
   },
 });

@@ -1,17 +1,17 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { Tabs } from './components/navigation/Tabs';
 import { Onboarding } from './components/onboarding/Onboarding';
-import { RootReducer } from './components/redux/RootReducer';
+import { rootReducer } from './components/redux/rootReducer';
 
 const Stack = createNativeStackNavigator();
 const store = createStore(
-  RootReducer,
+  rootReducer,
   compose(
     applyMiddleware(thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__ &&
