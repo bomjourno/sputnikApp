@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Text,
   View,
@@ -10,8 +10,17 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { underline } from 'jest-matcher-utils/node_modules/chalk';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFollowers } from '../redux/actions';
 
-export const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const followers = useSelector(state => state.followers.fetchedFollowers);
+
+  useEffect(() => {
+    dispatch(fetchFollowers());
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -47,33 +56,17 @@ export const HomeScreen = ({ navigation }) => {
           </Text>
         </View>
         <ScrollView style={styles.items_list} horizontal>
-          <View style={styles.item}>
-            <Image
-              resizeMode="contain"
-              style={styles.item_image}
-              source={require('../../images/followers/avatar.png')}
-            />
-            <Text style={styles.item_name}>Mason York</Text>
-            <Text style={styles.item_num}>123153311</Text>
-          </View>
-          <View style={styles.item}>
-            <Image
-              resizeMode="contain"
-              style={styles.item_image}
-              source={require('../../images/followers/avatar.png')}
-            />
-            <Text style={styles.item_name}>Mason York</Text>
-            <Text style={styles.item_num}>123153311</Text>
-          </View>
-          <View style={styles.item}>
-            <Image
-              resizeMode="contain"
-              style={styles.item_image}
-              source={require('../../images/followers/avatar.png')}
-            />
-            <Text style={styles.item_name}>Mason York</Text>
-            <Text style={styles.item_num}>123153311</Text>
-          </View>
+          {followers.map(follower => (
+            <View key={follower.id} style={styles.item}>
+              <Image
+                resizeMode="contain"
+                style={styles.item_image}
+                source={{ uri: follower.avatar_url }}
+              />
+              <Text style={styles.item_name}>{follower.login}</Text>
+              <Text style={styles.item_num}>{follower.id}</Text>
+            </View>
+          ))}
         </ScrollView>
         <View style={styles.items_borderBottom}></View>
       </View>
@@ -142,6 +135,8 @@ export const HomeScreen = ({ navigation }) => {
     </View>
   );
 };
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -240,6 +235,11 @@ const styles = StyleSheet.create({
   item: {
     justifyContent: 'flex-start',
     marginRight: 20,
+  },
+  item_image: {
+    width: 120,
+    height: 120,
+    borderRadius: 100,
   },
   item_column: {
     justifyContent: 'space-between',

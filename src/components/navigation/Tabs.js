@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FollowersScreen } from '../screens/FollowersScreen';
-import { ChatScreen } from '../screens/ChatScreen';
-import { ProfileScreen } from '../screens/ProfileScreen';
-import { HomeScreen } from '../screens/HomeScreen';
+import FollowersScreen from '../screens/FollowersScreen';
+import ChatScreen from '../screens/ChatScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import HomeScreen from '../screens/HomeScreen';
 import { View } from 'react-native';
 
 import HomeIcon from '../../images/navigate/Home.svg';
