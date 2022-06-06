@@ -10,19 +10,20 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../redux/actions';
+import { fetchUser } from '../../store/actions';
 
 const SignIn = ({ navigation }) => {
+  const [isFirstLaunch, setIsFirstLaunch] = useState(true);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
 
   function handleSearchUser() {
     dispatch(fetchUser(value));
+    setIsFirstLaunch(false);
   }
 
   useEffect(() => {
-    console.log(user);
     if (user.id) {
       navigation.navigate('Tabs');
     }
@@ -46,7 +47,12 @@ const SignIn = ({ navigation }) => {
           <Text style={styles.header_subtitle}>Enter nickname on github</Text>
         </View>
       </View>
-      <View style={[styles.input, { marginBottom: user.id ? 40 : 242 }]}>
+      <View
+        style={[
+          styles.input,
+          { marginBottom: user.id || isFirstLaunch ? 242 : 40 },
+        ]}
+      >
         <Text style={styles.input_label}>Nickname</Text>
         <TextInput
           autoCapitalize="none"
@@ -56,7 +62,12 @@ const SignIn = ({ navigation }) => {
           placeholder="Enter nickname"
         />
       </View>
-      <View style={[styles.alert, { display: user.id ? 'flex' : 'none' }]}>
+      <View
+        style={[
+          styles.alert,
+          { display: user.id || isFirstLaunch ? 'none' : 'flex' },
+        ]}
+      >
         <Image
           style={styles.alert_image}
           resizeMode="contain"

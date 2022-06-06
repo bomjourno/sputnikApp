@@ -1,4 +1,4 @@
-import { api } from '../../service/Api';
+import { api } from '../service/Api';
 import {
   FETCH_FOLLOWERS,
   ON_REQUEST,
@@ -11,7 +11,6 @@ export function fetchUser(user) {
   return async dispatch => {
     dispatch({ type: ON_REQUEST });
     const response = await api.getUserData(user);
-    console.log(response);
     if (response.request.status === 200) {
       const json = await response.data;
       dispatch({ type: FETCH_USER, payload: json });

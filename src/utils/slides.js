@@ -1,4 +1,4 @@
-export default [
+export const slides = [
   {
     id: 1,
     title: `Фонд поддержки стартапов «Спутник»`,

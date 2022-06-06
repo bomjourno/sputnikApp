@@ -7,9 +7,9 @@ import {
   Animated,
   TouchableOpacity,
 } from 'react-native';
-import slides from '../../utils/slides';
 import { OnboardingItem } from './OnboardingItem';
-import Logo from '../../images/onboarding/logo.svg';
+import { slides } from '../../../utils/slides';
+import Logo from '../../../images/onboarding/logo.svg';
 import Paginator from './Paginator';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -30,6 +30,8 @@ export const Onboarding = ({ navigation }) => {
       navigation.navigate('SignIn');
     }
   };
+
+  console.log(slides);
 
   return (
     <View style={styles.container}>

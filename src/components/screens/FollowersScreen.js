@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFollowers } from '../redux/actions';
+import { fetchFollowers } from '../../store/actions';
 import Follower from './Follower';
 
 const FollowersScreen = () => {

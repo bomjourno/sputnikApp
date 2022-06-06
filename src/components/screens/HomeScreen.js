@@ -11,7 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { underline } from 'jest-matcher-utils/node_modules/chalk';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFollowers, fetchRepos } from '../redux/actions';
+import { fetchFollowers, fetchRepos } from '../../store/actions';
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -27,7 +27,9 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.header_text}>{user.login}</Text>
+        <Text ellipsizeMode="tail" numberOfLines={1} style={styles.header_text}>
+          {user.login}
+        </Text>
         <TouchableOpacity style={styles.header_button}>
           <LinearGradient
             start={{ x: 1, y: 0 }}
@@ -149,6 +151,7 @@ const styles = StyleSheet.create({
     paddingRight: 16,
   },
   header_text: {
+    maxWidth: 213,
     fontFamily: 'Poppins-Bold',
     fontSize: 34,
     lineHeight: 51,

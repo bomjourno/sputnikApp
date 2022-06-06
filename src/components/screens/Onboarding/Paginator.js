@@ -1,5 +1,4 @@
 import React from 'react';
-import { useEffect } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 
 export default Paginator = ({ data, currentPage }) => {

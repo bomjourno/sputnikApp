@@ -3,12 +3,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
-import { applyMiddleware, compose, createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { Tabs } from './components/navigation/Tabs';
-import { Onboarding } from './components/onboarding/Onboarding';
-import { rootReducer } from './components/redux/rootReducer';
+import { Onboarding } from './components/screens/Onboarding/Onboarding';
 import SignIn from './components/screens/SignIn';
+import { rootReducer } from './store/rootReducer';
 
 const Stack = createNativeStackNavigator();
 const store = createStore(rootReducer, applyMiddleware(thunk));
